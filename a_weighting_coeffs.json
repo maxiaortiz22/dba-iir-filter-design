@@ -1,0 +1,24 @@
+{
+  "filter_type": "A-weighting IEC 61672-1",
+  "sample_rate": 48000,
+  "order": 6,
+  "numerator_coeffs": [
+    0.23430012514152765,
+    -0.4686002502830553,
+    -0.2343001251415276,
+    0.9372005005661108,
+    -0.23430012514152754,
+    -0.4686002502830553,
+    0.23430012514152765
+  ],
+  "denominator_coeffs": [
+    1.0,
+    -4.11305010732996,
+    6.553157702958688,
+    -4.9909180466648335,
+    1.7857953826173913,
+    -0.24621080268676002,
+    0.011225878476736176
+  ],
+  "cpp_code_example": "\n// C++ implementation example:\nclass AWeightingFilter {\nprivate:\n    static const int ORDER = 6;\n    double b[7] = {2.343001251415276e-01, -4.686002502830553e-01, -2.343001251415276e-01, 9.372005005661108e-01, -2.343001251415275e-01, -4.686002502830553e-01, 2.343001251415276e-01};\n    double a[7] = {1.000000000000000e+00, -4.113050107329960e+00, 6.553157702958688e+00, -4.990918046664834e+00, 1.785795382617391e+00, -2.462108026867600e-01, 1.122587847673618e-02};\n    double w[7] = {0}; // delay line\n    \npublic:\n    double process(double input) {\n        // Direct Form II implementation\n        w[0] = input;\n        for(int i = 1; i < 7; i++) {\n            w[0] -= a[i] * w[i];\n        }\n        \n        double output = 0;\n        for(int i = 0; i < 7; i++) {\n            output += b[i] * w[i];\n        }\n        \n        // Shift delay line\n        for(int i = 6; i > 0; i--) {\n            w[i] = w[i-1];\n        }\n        \n        return output;\n    }\n};\n"
+}
