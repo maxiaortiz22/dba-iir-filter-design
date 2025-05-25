@@ -8,7 +8,7 @@ For a detailed explanation of the methodology, filter design process, and implem
 
 The repository is organized in a `code` folder containing all the necessary scripts:
 
-- **`dBAFilterDesign4.py`**: The main Python script for designing the A-weighting IIR filter. It:
+- **`main.py`**: The main Python script for designing the A-weighting IIR filter. It:
   - Calculates the theoretical A-weighting frequency response per IEC 61672-1.
   - Designs the digital IIR filter using SciPy’s bilinear transform.
   - Validates the filter against IEC reference points.
@@ -35,6 +35,7 @@ To run the code, you’ll need:
   - `matplotlib`
   - `pandas`
   Install them using:
+
   ```bash
   pip install numpy scipy matplotlib pandas
   ```
@@ -51,8 +52,8 @@ To run the code, you’ll need:
 The `main.py` script designs the A-weighting filter, validates it, and exports coefficients. To run it:
 
 ```bash
-  python main.py
-  ```
+python main.py
+```
 
 This will:
 
@@ -73,16 +74,16 @@ The script outputs:
 The `filter.cpp` script implements the A-weighting filter in C++ and includes tests. To compile and run on Windows using `g++`:
 
 ```bash
-  g++ filter.cpp -o filter.exe
-  ./filter.exe
-  ```
+g++ filter.cpp -o filter.exe
+./filter.exe
+```
 
 For other operating systems (e.g., Linux, macOS), use:
 
 ```bash
-  g++ filter.cpp -o filter
-  ./filter
-  ```
+g++ filter.cpp -o filter
+./filter
+```
 
 This will:
 
@@ -96,8 +97,8 @@ This will:
 To visualize and validate the C++ filter output, run:
 
 ```bash
-  python test_cpp_filter.py
-  ```
+python test_cpp_filter.py
+```
 
 This script:
 
@@ -111,11 +112,11 @@ This script:
 The C++ filter was tested for real-time performance by processing 1 million samples:
 
 ```bash
-    Performance test (processing 1 million samples)...
-    Processed 1000000 samples in 39083 microseconds
-    Processing rate: 25586572 samples/second
-    Real-time ratio: 533.1x (higher is better)
-  ```
+Performance test (processing 1 million samples)...
+Processed 1000000 samples in 39083 microseconds
+Processing rate: 25586572 samples/second
+Real-time ratio: 533.1x (higher is better)
+```
 
 This demonstrates that the filter processes samples over 533 times faster than real-time at a 48 kHz sampling rate, making it highly suitable for real-time audio processing in applications like Android sound level meters.
 
