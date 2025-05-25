@@ -25,9 +25,9 @@ def test_real_time_filtering(b, a, fs=48000):
     y_manual = real_time_filter(x, b, a)
     
     # Plot results
-    plt.figure(figsize=(12, 6))
+    #plt.figure(figsize=(12, 6))
     
-    plt.subplot(2, 1, 1)
+    plt.plot()
     t_plot = t[:int(0.1 * fs)]  # Show first 100ms
     plt.plot(t_plot * 1000, x[:len(t_plot)], label='Input', alpha=0.7)
     plt.plot(t_plot * 1000, y_scipy[:len(t_plot)], label='A-weighted (scipy)', linewidth=2)
@@ -37,20 +37,26 @@ def test_real_time_filtering(b, a, fs=48000):
     plt.title('A-weighting Filter Test - Time Domain')
     plt.legend()
     plt.grid(True)
+    plt.tight_layout()
+    plt.show()
     
     # Frequency domain comparison
-    plt.subplot(2, 1, 2)
+    plt.plot()
     f_fft = np.fft.fftfreq(len(x), 1/fs)
     X = np.fft.fft(x)
     Y_scipy = np.fft.fft(y_scipy)
     Y_manual = np.fft.fft(y_manual)
     
     mask = f_fft > 0
-    plt.loglog(f_fft[mask], np.abs(X[mask]), label='Input', alpha=0.7)
-    plt.loglog(f_fft[mask], np.abs(Y_scipy[mask]), label='A-weighted (scipy)', linewidth=2)
-    plt.loglog(f_fft[mask], np.abs(Y_manual[mask]), '--', label='A-weighted (manual)', alpha=0.8)
+    plt.semilogx(f_fft[mask], np.abs(X[mask]), label='Input', alpha=0.7)
+    plt.semilogx(f_fft[mask], np.abs(Y_scipy[mask]), label='A-weighted (scipy)', linewidth=2)
+    plt.semilogx(f_fft[mask], np.abs(Y_manual[mask]), '--', label='A-weighted (manual)', alpha=0.8)
     plt.xlabel('Frequency (Hz)')
     plt.ylabel('Magnitude')
+    ticks = [20, 31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000, 20000]
+    tick_labels = ['20', '31.5', '63', '125', '250', '500', '1k', '2k', '4k', '8k', '16k', '20k']
+    plt.xticks(ticks, tick_labels, rotation=45)
+    plt.xlim([20, 20000])
     plt.title('A-weighting Filter Test - Frequency Domain')
     plt.legend()
     plt.grid(True)

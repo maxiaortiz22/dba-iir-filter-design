@@ -259,22 +259,83 @@ void testFilter() {
     }
 }
 
+// Multi-tone test to verify simple A-weighting filter response
+void testMultiToneFilter() {
+    const double fs = 48000.0;
+    const double duration = 1.0; // 1 second
+    const int numSamples = static_cast<int>(fs * duration);
+    
+    // Frequencies to test (IEC 61672-1 reference points)
+    std::vector<double> testFreqs = {31.5, 1000.0, 8000.0}; // Hz
+    const double amplitude = 1.0 / testFreqs.size(); // Normalize amplitude
+    // Expected A-weighting gains (dB) from IEC 61672-1
+    std::vector<double> expectedGains = {-39.4, 0.0, -1.1}; // dB
+    
+    AWeightingFilter filter;
+    
+    std::cout << "\nMulti-tone A-weighting filter test (Simple Implementation)...\n";
+    std::cout << "Sample rate: " << fs << " Hz\n";
+    std::cout << "Duration: " << duration << " seconds\n";
+    std::cout << "Frequencies: ";
+    for (double freq : testFreqs) {
+        std::cout << freq << " Hz ";
+    }
+    std::cout << "\n\n";
+    
+    // Generate multi-tone test signal
+    std::vector<double> input(numSamples);
+    for (int i = 0; i < numSamples; i++) {
+        double t = static_cast<double>(i) / fs;
+        input[i] = 0.0;
+        for (double freq : testFreqs) {
+            input[i] += amplitude * std::sin(2.0 * M_PI * freq * t);
+        }
+    }
+    
+    // Process with simple filter
+    std::vector<double> output = filter.processBlock(input);
+    
+    // Calculate RMS for each frequency component (for console output)
+    std::vector<double> inputRMS(testFreqs.size(), 0.0);
+    std::vector<double> outputRMS(testFreqs.size(), 0.0);
+    
+    // Skip first 1000 samples to avoid transients
+    const int skipSamples = 1000;
+    for (int i = skipSamples; i < numSamples; i++) {
+        for (size_t j = 0; j < testFreqs.size(); j++) {
+            double t = static_cast<double>(i) / fs;
+            double component = amplitude * std::sin(2.0 * M_PI * testFreqs[j] * t);
+            inputRMS[j] += component * component;
+            outputRMS[j] += output[i] * output[i];
+        }
+    }
+    
+    // Save output to file in raw amplitude format (time, input, output)
+    std::ofstream outFile("multitone_test_cpp.txt");
+    if (outFile.is_open()) {
+        outFile << std::setprecision(8) << std::scientific;
+        for (int i = 0; i < std::min(1000, numSamples); i++) {
+            outFile << static_cast<double>(i) / fs << "\t" 
+                    << input[i] << "\t" << output[i] << "\n";
+        }
+        outFile.close();
+        std::cout << "First 1000 samples saved to 'multitone_test_cpp.txt'\n";
+    }
+}
+
 
 int main() {
     std::cout << "A-weighting Filter Implementation (IEC 61672-1)\n";
     std::cout << "==============================================\n\n";
     
-    // Run test
+    // Run single-tone test
     testFilter();
     
-    // Example of real-time usage
-    std::cout << "\nReal-time usage example:\n";
-    std::cout << "1. Create filter: AWeightingFilter filter;\n";
-    std::cout << "2. Process samples: output = filter.process(input);\n";
-    std::cout << "3. Or process blocks: filter.processBlock(inputArray, outputArray, size);\n\n";
+    // Run multi-tone test
+    testMultiToneFilter();
     
     // Performance test
-    std::cout << "Performance test (processing 1 million samples)...\n";
+    std::cout << "\nPerformance test (processing 1 million samples)...\n";
     
     AWeightingFilter perfFilter;
     const int perfSamples = 1000000;
