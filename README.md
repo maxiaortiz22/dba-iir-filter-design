@@ -34,11 +34,12 @@ To run the code, you’ll need:
   - `scipy`
   - `matplotlib`
   - `pandas`
-  Install them using:
+  
+Install them using:
 
-  ```bash
-  pip install numpy scipy matplotlib pandas
-  ```
+```bash
+pip install numpy scipy matplotlib pandas
+```
 
 - **C++ Compiler**: A compiler like `g++` for building the C++ code. The provided compilation command is for Windows, but it can be adapted for other operating systems.
 
