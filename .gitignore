@@ -1,2 +1,14 @@
 __pycache__
 */__pycache__
+.vscode
+*.exe
+*.dll
+*.so
+*.dylib
+*.pyd
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.a
+*.o
