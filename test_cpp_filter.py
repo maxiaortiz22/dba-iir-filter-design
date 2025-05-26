@@ -4,8 +4,8 @@ import numpy as np
 from scipy.fft import fft, fftfreq
 
 # Read multi-tone or single-tone test data
-data = pd.read_csv("multitone_test_cpp.txt", sep="\t", header=None)
-#data = pd.read_csv("test_cpp.txt", sep="\t", header=None)
+data = pd.read_csv("data/multitone_test_cpp.txt", sep="\t", header=None)
+#data = pd.read_csv("data/test_cpp.txt", sep="\t", header=None)
 data.columns = ["Time (s)", "Input", "A-weighted Output"]
 
 # Plot time domain

@@ -1,6 +1,6 @@
 import json
 
-def export_coefficients_for_cpp(b, a, filename="a_weighting_coeffs.json"):
+def export_coefficients_for_cpp(b, a, filename="data/a_weighting_coeffs.json"):
     """Export filter coefficients in a format suitable for C++"""
     
     coeffs = {

@@ -247,7 +247,7 @@ void testFilter() {
     std::cout << "(Should be close to 0 dB at 1 kHz)\n\n";
     
     // Save output to file for analysis
-    std::ofstream outFile("test_cpp.txt");
+    std::ofstream outFile("data/test_cpp.txt");
     if (outFile.is_open()) {
         outFile << std::setprecision(8) << std::scientific;
         for(int i = 0; i < std::min(1000, numSamples); i++) {
@@ -311,7 +311,7 @@ void testMultiToneFilter() {
     }
     
     // Save output to file in raw amplitude format (time, input, output)
-    std::ofstream outFile("multitone_test_cpp.txt");
+    std::ofstream outFile("data/multitone_test_cpp.txt");
     if (outFile.is_open()) {
         outFile << std::setprecision(8) << std::scientific;
         for (int i = 0; i < std::min(1000, numSamples); i++) {

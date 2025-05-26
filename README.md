@@ -24,7 +24,7 @@ The repository is organized in a `code` folder containing all the necessary scri
 
 - **`test_cpp_filter.py`**: A Python script to analyze the C++ filter output (`test_cpp.txt` and `multitone_test_cpp.txt`). It generates time and frequency domain plots, comparing the C++ filter’s response to the theoretical A-weighting curve and IEC reference points.
 
-- **`a_weighting_coeffs.json`**: The exported filter coefficients from `dBAFilterDesign4.py`, ready for use in the C++ implementation.
+- **`a_weighting_coeffs.json`**: The exported filter coefficients from `main.py`, ready for use in the C++ implementation.
 
 ## Prerequisites
 
